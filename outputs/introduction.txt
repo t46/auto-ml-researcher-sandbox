@@ -1,0 +1,35 @@
+% 分野の説明
+Text style transfer is the task of changing the stylistic properties (e.g., sentiment) of the text while retaining the style-independent content within the context. Since the definition of the text style is vague, it is difficult to construct paired sentences with the same content and differing styles. Therefore, the studies of text style transfer focus on the unpaired transfer.
+
+% 既存手法の説明
+Recently, neural networks have become the dominant methods in text style transfer. Most of the previous methods (Hu et al., 2017; Shen et al., 2017; Fu et al., 2018; Carlson et al., 2017; Zhang et al., 2018b,a; Prabhumoye et al., 2018; Jin et al., 2019; Melnyk et al., 2017; dos Santos et al., 2018) formulate the style transfer problem into the “encoder-decoder” framework. The encoder maps the text into a style-independent latent representation (vector representation), and the decoder generates a new text with the same content but a different style from the disentangled latent representation plus a style variable.
+
+These methods focus on how to disentangle the content and style in the latent space. The latent representation needs better preserve the meaning of the text while reducing its stylistic properties. Due to lacking paired sentence, an adversarial loss (Goodfellow et al., 2014) is used in the latent space to discourage encoding style information in the latent representation. Although the disentangled latent representation brings better interpretability, in this paper, we address the following concerns for these models.
+
+% 既存手法が抱える課題の説明
+1. It is difficult to judge the quality of disentanglement. As reported in (Elazar and Goldberg, 2018; Lample et al., 2019), the style information can be still recovered from the latent representation even the model has trained adversarially. Therefore, it is not easy to disentangle the stylistic property from the semantics of a sentence.
+2. Disentanglement is also unnecessary. Lample et al. (2019) reported that a good decoder can generate the text with the desired style from an entangled latent representation by “overwriting” the original style.
+3. Due to the limited capacity of vector representation, the latent representation is hard to capture the rich semantic information, especially for the long text. The recent progress of neural machine translation also proves that it is hard to recover the target sentence from the latent representation without referring to the original sentence.
+4. To disentangle the content and style information in the latent space, all of the existing approaches have to assume the input sentence is encoded by a fix-sized latent vector. As a result, these approaches can not directly apply the attention mechanism to enhance the ability to preserve the information in the input sentence.
+5. Most of these models adopt recurrent neural networks (RNNs) as encoder and decoder, which has a weak ability to capture the long-range dependencies between words in a sentence. Besides, without referring the original text, RNN-based decoder is also hard to preserve the content. The generation quality for long text is also uncontrollable.
+
+% 提案手法の説明
+In this paper, we address the above concerns of disentangled models for style transfer. Different from them, we propose Style Transformer, which takes Transformer (Vaswani et al., 2017) as the basic block. Transformer is a fully-connected selfattention neural architecture, which has achieved many exciting results on natural language processing (NLP) tasks, such as machine translation (Vaswani et al., 2017), language modeling (Dai et al., 2019), text classification (Devlin et al., 2018). Different from RNNs, Transformer uses stacked self-attention and point-wise, fully connected layers for both the encoder and decoder. Moreover, Transformer decoder fetches the information from the encoder part via attention mechanism, compared to a fixed size vector used by RNNs.
+
+% 実験で観測した手法の性能の説明
+With the strong ability of Transformer, our model can transfer the style of a sentence while better preserving its meaning. The difference between our model and the previous model is shown in Figure 1.
+
+% contribution のまとめ
+Our contributions are summarized as follows:
+
+- We introduce a novel training algorithm
+which makes no assumptions about the disentangled latent representations of the input
+sentences, and thus the model can employ
+attention mechanisms to improve its performance further.
+- To the best of our knowledge, this is the first
+work that applies the Transformer architecture to style transfer task.
+- Experimental results show that our proposed
+approach generally outperforms the other
+approaches on two style transfer datasets.
+Specifically, to the content preservation,
+Style Transformer achieves the best performance with a significant improvement.
