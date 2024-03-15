@@ -1,0 +1,20 @@
+version: '3.8' # 使用するdocker-composeのバージョン
+
+services:
+  auto-agent: # サービス名
+    image: auto-agent # 使用するイメージ
+    container_name: auto-agent # コンテナ名
+    command: auto-agent/start.sh # コンテナ起動時に実行するコマンド
+    tty: true # コンテナにttyを割り当てる（対話的な作業が可能になる）
+    volumes:
+      - .:/auto-agent # ホストのディレクトリをコンテナにマウント
+    ports:
+      - "8080:80" # ホストのポート8080をコンテナのポート80にフォワEードする
+    env_file:
+      - .env # 環境変数を.envファイルから読み込む
+    networks:
+      - my_custom_network
+
+networks:
+  my_custom_network:
+    driver: bridge
