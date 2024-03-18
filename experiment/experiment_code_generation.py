@@ -1,4 +1,5 @@
 from openai import OpenAI
+import re
 
 prompt = """
 Below, I present an issue, a proposed method for solving it, and an experimental plan to validate the effectiveness of this method. Please generate Python code to execute this experimental plan. However, strictly follow the instructions below:
@@ -26,5 +27,15 @@ response = client.chat.completions.create(
     messages=[{"role": "user", "content": prompt},
               {"role": "system", "content": "You are a machine learning researcher."}],
     )
+
+def extract_python_blocks(text):
+    pattern = r"```python(.*?)```"
+    matches = re.findall(pattern, text, re.DOTALL)
+    combined = '\n'.join(match.strip() for match in matches)
+    return combined
+
+code = extract_python_blocks(response.choices[0].message.content)
+with open('experiment_code.py', 'w') as f:
+    f.write(code)
 
 print(response.choices[0].message.content)

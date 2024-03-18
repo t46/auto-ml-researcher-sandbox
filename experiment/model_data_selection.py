@@ -10,8 +10,18 @@ api_tools.default_api_agent = api_tools.APIAgent(model_name="gpt-3.5-turbo", max
 
 # データセットの取得  TODO: ここ全部丸ごと抽象化しても良い
 task_type = TaskType.TEXT_GENERATION
-with open("data_get_prompt.txt", "r") as f:
-    prompt_text = f.read()
+prompt_text = """
+Task: You will verify the effectiveness of the proposed method that is expected to solve the following problem using the experimental plan described below. At this time, please select appropriate datasets used to assess the effectiveness of this proposed method.
+
+Problem:
+{problem}
+
+Proposed Method:
+{proposed_method}
+
+Experimental Plan:
+{experimental_design}
+"""
 prompt_spec = PromptBasedInstructionParser(task_type=TaskType.TEXT_GENERATION)
 prompt_spec._instruction = prompt_text
 dataset_retriever = DescriptionDatasetRetriever(
@@ -21,8 +31,18 @@ top_dataset_names = dataset_retriever.retrieve_top_datasets(prompt_spec)
 
 # 事前学習済みモデルの取得  TODO: ここ全部丸ごと抽象化しても良い
 task_type = TaskType.TEXT_GENERATION
-with open("model_get_prompt.txt", "r") as f:
-    prompt_text = f.read()
+prompt_text = """
+Task: You will verify the effectiveness of the proposed method that is expected to solve the following problem using the experimental plan described below. At this time, please select appropriate models as the baselines for comparison with this proposed method.
+
+Problem:
+{problem}
+
+Proposed Method:
+{proposed_method}
+
+Experimental Plan:
+{experimental_design}
+"""
 prompt_spec = PromptBasedInstructionParser(task_type=TaskType.TEXT_GENERATION)
 prompt_spec._instruction = prompt_text
 model_retriever = DescriptionModelRetriever(
