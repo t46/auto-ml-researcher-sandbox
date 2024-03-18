@@ -9,9 +9,8 @@ from prompt2model.utils import api_tools
 api_tools.default_api_agent = api_tools.APIAgent(model_name="gpt-3.5-turbo", max_tokens=1000)  # TODO: max_tokens のところは無理やりやってるだけなので後で直す
 
 task_type = TaskType.TEXT_GENERATION
-prompt_text = """
-sentiment analysis  # TODO: 実際にはここはファイルを読み込むなり pipeline で前から渡すなりする
-"""
+with open("model_data_get_prompt.txt", "r") as f:
+    prompt_text = f.read()
 prompt_spec = PromptBasedInstructionParser(task_type=TaskType.TEXT_GENERATION)
 prompt_spec._instruction = prompt_text
 
