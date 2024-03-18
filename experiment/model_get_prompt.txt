@@ -1,0 +1,10 @@
+Task: You will verify the effectiveness of the proposed method that is expected to solve the following problem using the experimental plan described below. At this time, please select appropriate models as the baselines for comparison with this proposed method.
+
+Problem:
+{problem}
+
+Proposed Method:
+{proposed_method}
+
+Experimental Plan:
+{experimental_design}
