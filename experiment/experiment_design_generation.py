@@ -22,6 +22,8 @@ def generate_experiment_design(problem: str, proposed_method: str, client: OpenA
     with open('experiment_design.txt', 'w') as f:
         f.write(response.choices[0].message.content)
 
+    return response.choices[0].message.content
+
 if __name__ == "__main__":
     client = OpenAI()
     with open("research_problem.txt") as f:
