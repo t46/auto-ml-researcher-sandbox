@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-def generate_research_problem(problem: str) -> str:
+def generate_research_problem(problem: str, client: OpenAI) -> str:
 
   prompt = f"""
   Ultimate Problem: {problem}
@@ -25,7 +25,6 @@ def generate_research_problem(problem: str) -> str:
   Description: ...
   """
 
-  client = OpenAI()
   response = client.chat.completions.create(
       model="gpt-4-0125-preview",
       temperature=0.0,
@@ -39,6 +38,7 @@ def generate_research_problem(problem: str) -> str:
   return response.choices[0].message.content
 
 if __name__ == "__main__":
+  client = OpenAI()
   high_level_problem = "AI alignment problem: the problem refers to the challenge that artificial intelligence (AI) systems are designed to act in ways that are beneficial to humans and aligned with human values and interests."
-  research_problem = generate_research_problem(high_level_problem)
+  research_problem = generate_research_problem(high_level_problem, client)
   print(research_problem)
