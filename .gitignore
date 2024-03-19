@@ -4,3 +4,4 @@ database
 storage
 langchainagent
 logs
+*.txt
