@@ -36,6 +36,8 @@ def generate_proposed_method_code(proposed_method: str, client: OpenAI) -> str:
     with open('proposed_method.py', 'w') as f:
         f.write(code)
 
+    return code
+
 if __name__ == "__main__":
     client = OpenAI()
     with open('formulated_proposed_method.txt', 'r') as f:
