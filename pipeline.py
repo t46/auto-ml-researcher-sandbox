@@ -7,7 +7,8 @@ from experiment.model_data_selection import select_data, select_models
 from experiment.experiment_code_generation import generate_experiment_code
 
 client = OpenAI()
-high_level_problem = "AI alignment problem: the problem refers to the challenge that artificial intelligence (AI) systems are designed to act in ways that are beneficial to humans and aligned with human values and interests."
+with open("high_level_problem.txt") as f:
+    high_level_problem = f.read()
 research_problem = generate_research_problem(high_level_problem, client)
 proposed_method = generate_proposed_method(research_problem, client)
 _ = generate_proposed_method_code(proposed_method, client)
