@@ -1,5 +1,5 @@
 from openai import OpenAI
-import re
+from utils.post_process import extract_python_blocks
 
 def generate_proposed_method_code(proposed_method: str, client: OpenAI) -> str:
 
@@ -30,13 +30,6 @@ def generate_proposed_method_code(proposed_method: str, client: OpenAI) -> str:
     Python Code:
     {response.choices[0].message.content}
     """
-
-    # TODO: utils などに移動する
-    def extract_python_blocks(text):
-        pattern = r"```python(.*?)```"
-        matches = re.findall(pattern, text, re.DOTALL)
-        combined = '\n'.join(match.strip() for match in matches)
-        return combined
 
     code = extract_python_blocks(response.choices[0].message.content)
 

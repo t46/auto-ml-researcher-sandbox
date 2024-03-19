@@ -1,5 +1,5 @@
 from openai import OpenAI
-import re
+from utils.post_process import extract_python_blocks
 
 def generate_experiment_code(problem: str, proposed_method: str, experiment_design: str, dataset_names: str, model_names: str, client: OpenAI):
 
@@ -28,12 +28,6 @@ def generate_experiment_code(problem: str, proposed_method: str, experiment_desi
         messages=[{"role": "user", "content": prompt},
                 {"role": "system", "content": "You are a machine learning researcher."}],
         )
-
-    def extract_python_blocks(text):
-        pattern = r"```python(.*?)```"
-        matches = re.findall(pattern, text, re.DOTALL)
-        combined = '\n'.join(match.strip() for match in matches)
-        return combined
 
     code = extract_python_blocks(response.choices[0].message.content)
     with open('experiment_code.py', 'w') as f:
