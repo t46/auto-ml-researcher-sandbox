@@ -1,24 +1,33 @@
 from openai import OpenAI
 
-prompt = """
-Design an experimental plan to verify the effectiveness of the proposed method for solving the problem described below.
+def generate_experiment_design(problem: str, proposed_method: str, client: OpenAI) -> str:
 
-Problem:
-{problem}
+    prompt = f"""
+    Design an experimental plan to verify the effectiveness of the proposed method for solving the problem described below.
 
-Proposed Method:
-{proposed_method}
-"""
+    Problem:
+    {problem}
 
-client = OpenAI()
-response = client.chat.completions.create(
-    model="gpt-4-0125-preview",
-    temperature=0.0,
-    messages=[{"role": "user", "content": prompt},
-              {"role": "system", "content": "You are a machine learning researcher."}],
-    )
+    Proposed Method:
+    {proposed_method}
+    """
 
-with open('experiment_design.txt', 'w') as f:
-    f.write(response.choices[0].message.content)
+    response = client.chat.completions.create(
+        model="gpt-4-0125-preview",
+        temperature=0.0,
+        messages=[{"role": "user", "content": prompt},
+                {"role": "system", "content": "You are a machine learning researcher."}],
+        )
 
-print(response.choices[0].message.content)
+    with open('experiment_design.txt', 'w') as f:
+        f.write(response.choices[0].message.content)
+
+if __name__ == "__main__":
+    client = OpenAI()
+    with open("research_problem.txt") as f:
+        research_problem = f.read()
+    with open("proposed_method.txt") as f:
+        proposed_method = f.read()
+    experiment_design = generate_experiment_design(research_problem, proposed_method, client)
+    print(experiment_design)
+
