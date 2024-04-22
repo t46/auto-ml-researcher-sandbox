@@ -7,11 +7,14 @@ RUN apt-get update && apt-get install -y \
     gcc \
     wget \
     python3-dev \
+    libpcre3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install Python packages
 RUN pip install --upgrade pip
-RUN pip install openai langchain open-interpreter google-search-results anthropic torch chromadb requests llama-index tavily-python
+# RUN pip install openai langchain open-interpreter google-search-results anthropic torch chromadb requests llama-index tavily-python
+RUN pip install openai
+RUN pip install datasets torch tevatron faiss-cpu retriv
 
 # Clone the gpt-researcher project
 RUN git clone https://github.com/assafelovic/gpt-researcher.git
