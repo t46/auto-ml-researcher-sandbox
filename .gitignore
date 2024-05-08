@@ -5,3 +5,5 @@ storage
 langchainagent
 logs
 *.txt
+modules/experiment/huggingface_data/
+modules/experiment/huggingface_models/
